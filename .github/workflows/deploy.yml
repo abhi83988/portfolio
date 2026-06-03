@@ -1,29 +1,29 @@
 name: Deploy Portfolio
 
 on:
-push:
-branches:
-- main
+  push:
+    branches:
+       - main
 
 jobs:
-deploy:
-runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-steps:
-  - name: Deploy to EC2
-    uses: appleboy/ssh-action@master
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
 
-    with:
-      host: ${{ secrets.HOST }}
-      username: ${{ secrets.USERNAME }}
-      key: ${{ secrets.SSH_KEY }}
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
 
-      script: |
-        cd /var/www/portfolio
+          script: |
+            cd /var/www/portfolio
 
-        git pull origin main
+            git pull origin main
 
-        docker compose down
+            docker compose down
 
-        docker compose up -d --build
+            docker compose up -d --build
 
